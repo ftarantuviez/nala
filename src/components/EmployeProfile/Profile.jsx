@@ -65,8 +65,8 @@ export default function Profile({id, uid, sheetId}) {
         : value === 0
             ? (
                 <>
-                    <Avatar className={classes.avatar} alt={infoEmployee.length > 0 ? infoEmployee[0].data['Nombre '] : ''} src={infoEmployee.length > 0 ? infoEmployee[0].data['Foto'] : ''} />
-                    <Typography className={classes.persInfo}><strong>Nombre: </strong>{infoEmployee.length > 0 ? infoEmployee[0].data['Nombre '] : ''} </Typography>
+                    <Avatar className={classes.avatar} alt={infoEmployee.length > 0 ? infoEmployee[0].data['Nombre'] : ''} src={infoEmployee.length > 0 ? infoEmployee[0].data['Foto'] : ''} />
+                    <Typography className={classes.persInfo}><strong>Nombre: </strong>{infoEmployee.length > 0 ? infoEmployee[0].data['Nombre'] : ''} </Typography>
                     <Typography className={classes.persInfo}><strong>Cargo: </strong>{infoEmployee.length > 0 ? infoEmployee[0].data['Nivel Jerárquico'] : ''}</Typography>
                     <Typography className={classes.persInfo}><strong>Salario actual: </strong>$ {infoEmployee.length > 0 ? infoEmployee[0].sueldo : ''} </Typography>
                     <Typography className={classes.persInfo}><strong>Area: </strong>{infoEmployee.length > 0 ? infoEmployee[0].data['Area'] : ''} </Typography>

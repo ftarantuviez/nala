@@ -22,7 +22,12 @@ const optionsDonut = {
          labels: { 
              fontColor: 'white'
         },
-    }
+    },
+    title: {
+        display: true,
+        text: 'Salarios por Area',
+        fontColor: 'white'
+    },
 }
 /* DONUT CONFIGURATION */
 
@@ -57,14 +62,13 @@ function MainPage({data, allEmployes}) {
 
     }, [firstChartData])
 
-
     return (
             <Grid container className={classes.container} spacing={3}>
 
                 {/* FIRST CHART --- ALL SALARIES */}
                 <Grid item xs={12} >
-                <div style={{width: '100%', height: '100%'}}>
-                <Paper className={classes.paper}>
+                
+                <Paper className={`${classes.paper} ${classes.paperChart}`}>
                         <Bar
                             data={{
                                 labels: lastChartData.dates,
@@ -87,7 +91,6 @@ function MainPage({data, allEmployes}) {
                             }}
                             />
                     </Paper>
-                </div>
                 </Grid>
                 {/* FIRST CHART --- ALL SALARIES */}
 
@@ -98,16 +101,14 @@ function MainPage({data, allEmployes}) {
                         {
                             mapData.loading
                             ? 'Loading'
-                            : mapData.data.length > 0 && (
-                                <LeafletMap center={{lat: 34.80746, lng: -40.4796}} zoom={2}>
+                            : <LeafletMap center={{lat: 34.80746, lng: -40.4796}} zoom={3}>
                                     <TileLayer 
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap </a>'
                                     />
-                                    {setTimeout(() => showDataOnMap(mapData.data), 2000)}
-                                    {!mapData.loading && showDataOnMap(mapData.data)}
+                                    {mapData.data.length > 0 && showDataOnMap(mapData.data)}
                                 </LeafletMap>
-                            )
+                            
                         }    
                     </Paper>
                 </Grid>
@@ -127,11 +128,11 @@ function MainPage({data, allEmployes}) {
                                     <ListItem button>
                                         <ListItemAvatar>
                                         <Avatar
-                                            alt={value['Nombre ']}
+                                            alt={value['Nombre']}
                                             src={value['Foto']}
                                         />
                                         </ListItemAvatar>
-                                        <ListItemText primary={value['Nombre ']} />
+                                        <ListItemText primary={value['Nombre']} />
                                         <ListItemSecondaryAction>
                                             <PersonIcon />
                                         </ListItemSecondaryAction>
@@ -147,24 +148,21 @@ function MainPage({data, allEmployes}) {
 
                 {/* CHART DONNUT --- SALARIES PER AREA */}
                 <Grid item xs={12} md={8}>
-                <div style={{width: '100%', height: '100%'}}>
-                    <Paper className={classes.paperDonut}>
-                        <Typography variant="h5" className={classes.titleDonut}>
-                            Total salarios por area
-                        </Typography>
+                    <Paper className={`${classes.paperDonut} ${classes.paperChart}`}>
+                    <div className={classes.chartContainer}>
                         <Doughnut data={donutData}
                                   options={optionsDonut}
                         />
+                    </div>
                     </Paper>
-                </div>
                 </Grid>
                 {/* CHART DONNUT --- SALARIES PER AREA */}
 
 
                 {/* FINAL CHART --- ALL SALARIES */}
                 <Grid item xs={12}>
-                    <Paper className={classes.paperFirstChart}>
-                        <div style={{width: '100%', height: '100%'}}>
+                    <Paper className={`${classes.paper} ${classes.paperChart}`}>
+                        <div className={classes.chartContainer}> 
                             <Line data={{
                                     labels: labelsChart[0],
                                     datasets: dataChart

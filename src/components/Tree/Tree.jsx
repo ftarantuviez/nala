@@ -31,7 +31,7 @@ function Tree({allEmployes, setLoading}){
     setLoading(true)
     let res = []
     allEmployes.map(e => {
-      res.push({id: e['ID'], pid: e['ID Lider'], Name: e['Nombre '], Salario: e['Sueldo bruto'], Title: e['Nivel Jerárquico'], img: e['Foto']})
+      res.push({id: e['ID'], pid: e['ID Lider'], Name: e['Nombre'], Salario: e['Sueldo bruto'], Title: e['Nivel Jerárquico'], img: e['Foto']})
     })
 
     setNodes(res)

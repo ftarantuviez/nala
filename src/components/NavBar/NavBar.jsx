@@ -91,11 +91,13 @@ export default function NavBar({isUser, setOpenList, openList}) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar className={classes.header} position="static">
         <Toolbar>
+          {isUser && (
           <IconButton onClick={() => setOpenList(!openList)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
+          )}
           <Typography variant="h6" className={classes.title}>
             NALA
           </Typography>

@@ -22,7 +22,11 @@ const useStyles = makeStyles((theme) => ({
     demo: {
         height: '100%',
         background: '#7182de',
-        color: 'white'
+        color: 'white',
+        overflowY: 'scroll',
+        '&::-webkit-scrollbar': {
+            display: 'none'
+        },
     },
     title: {
         padding: theme.spacing(4, 0, 2),

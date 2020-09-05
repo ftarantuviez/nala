@@ -4,19 +4,20 @@ import {Circle, Popup} from 'react-leaflet'
 
 export const showDataOnMap = (data) => (
   data.map(country => (
-    
         <Circle
-            center={[country.paisData.coord.lat, country.paisData.coord.lon]}
+            center={[country.countryData.latitude, country.countryData.longitude]}
             fillOpacity={0.4}
             color='#7dd71d'
             fillColor='#7dd71d'
-            id={country.paisData.sys.id}
-            radius={600}
+            id={country.id}
+            radius={120000}
         > 
             <Popup>
                 <div className="info-container">
-                    <div className="info-name">{country.nombre}</div>
-                    <div className="info-name">{country.paisData.name}</div>
+                <div className="info-flag" style={{backgroundImage: `url(${country.image})`}}></div>
+                    <div className="info-name">{country.name}</div>
+                    <div className="info-cases">Pais: {country.countryData.name}</div>
+                    <div className="info-cases">Sueldo: {country.countryData.sueldo}</div>
                 </div>  
             </Popup>
         </Circle>
@@ -64,4 +65,12 @@ export const getRandomColor = () => {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
+}
+
+/* TO PROOBE REAL .XLSX FORMAT */
+export const validateFormat = (array) =>{
+    const filt = array.filter(a => (a['Mes'] && a['Nombre'] && a['ID'] && a['Fecha de ingreso'] && a['Sueldo bruto'] && a['División']) && a['Area'] && a['Subarea'] && a['ID Lider'] && a['Nivel Jerárquico'] && a['Pais'] && a['Foto'])
+
+    if(filt.length === array.length) return true
+    else return false
 }

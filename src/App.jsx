@@ -11,8 +11,9 @@ import Profile from './components/EmployeProfile/Profile'
 import Tree from './components/Tree/Tree'
 import {Layout} from './components/Layout/Layout'
 
-import {Button,Backdrop, CircularProgress, Typography} from '@material-ui/core'
+import {Button,Backdrop, CircularProgress, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core'
 import {auth, db} from './firebase'
+import {validateFormat} from './util'
 
 function App() {
   const [data, setData] = useState([])
@@ -20,6 +21,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [sheetId, setSheetId] = useState('')
   const [openList, setOpenList] = useState(window.innerWidth > 900 ? true : false)
+  const [dialogOpen, setDialogOpen] = useState(false)
   
   const all = []
   const [allEmployes, setAllEmployes] = useState([])
@@ -67,24 +69,28 @@ function App() {
        let workbook = XLSX.read(data,{type:"binary"});
        workbook.SheetNames.forEach(sheet => {
             let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
-            setData(rowObject);
-
-            db.collection('users').doc(isUser.uid).collection('sheets').add({name: selectedFile.name})
-            .then(e => {
-                setSheetId(e.id)
-                rowObject.forEach(doc => {
-                  db.collection('users').doc(isUser.uid).collection('sheets').doc(e.id)
-                  .collection('data').add(doc)
-                  .then(() => {
-                    setLoading(false)
+            if(validateFormat(rowObject)){
+              setData(rowObject);
+              db.collection('users').doc(isUser.uid).collection('sheets').add({name: selectedFile.name})
+              .then(e => {
+                  setSheetId(e.id)
+                  rowObject.forEach(doc => {
+                    db.collection('users').doc(isUser.uid).collection('sheets').doc(e.id)
+                    .collection('data').add(doc)
+                    .then(() => {
+                      setLoading(false)
+                    })
                   })
-                })
-            })
-            .catch(e => {
-              alert('Something went wrong :(', e.message)
-              console.log(e)
+              })
+              .catch(e => {
+                alert('Something went wrong :(', e.message)
+                console.log(e)
+                setLoading(false)
+              })
+            } else {
               setLoading(false)
-            })
+              setDialogOpen(true)
+            }
           });
         }
     }
@@ -152,7 +158,7 @@ function App() {
                     </Switch>
 
                   ) : (
-                    <div className='inputFileContainer' style={{marginTop: 'calc(50vh - 104px)', textAlign: 'center'}}> 
+                    <div className='inputFileContainer' style={{marginTop: 'calc(50vh - 64px)', textAlign: 'center'}}> 
                         <input
                           accept=""
                           className='inputFile'
@@ -176,7 +182,7 @@ function App() {
       : (
         <>
           <NavBar isUser={isUser} />
-          <Typography component='h1' style={{marginTop: '50vh', marginLeft: '50vw'}}>
+          <Typography component='h1' style={{marginTop: 'calc(50vh - 64px)', textAlign: 'center'}}>
             Inicia sesion para poder cargar plantillas
           </Typography>
         </>
@@ -187,6 +193,26 @@ function App() {
       <Backdrop style={{zIndex: '10000', color: 'white'}} open={loading}>
           <CircularProgress color="inherit" />
       </Backdrop>
+      
+      <Dialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+      >
+        <DialogTitle>{"Invalid data format"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Para subir documentos de excel, la disposicion de la data debe ser como la siguiente:
+          </DialogContentText>
+          <DialogContentText>
+          Mes |	Nombre | ID	| Fecha de ingreso | Sueldo bruto	| División | Area	| Subarea	| ID Lider | Nivel Jerárquico	| Pais | Foto
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDialogOpen(false)} color="primary" autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

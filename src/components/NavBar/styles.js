@@ -7,6 +7,11 @@ export const useStyles = makeStyles((theme) => ({
     },
     menuButton: {
       marginRight: theme.spacing(2),
+      display: 'block',
+    },
+    header: {
+      justifyContent: 'center',
+      height: '64px !important'
     },
     title: {
       flexGrow: 1,

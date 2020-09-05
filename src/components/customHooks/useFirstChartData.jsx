@@ -18,7 +18,7 @@ function useFirstChartData(data, allEmployes){
 
     useEffect(() => {
       employes.map(e => {
-        ans2.push({nombre: e[0]['Nombre '], id: e[0]['ID'], salario: e.map(ev => ev['Sueldo bruto']), mes: e.map(ev => excelDateToJSDate(ev['Mes']))})
+        ans2.push({nombre: e[0]['Nombre'], id: e[0]['ID'], salario: e.map(ev => ev['Sueldo bruto']), mes: e.map(ev => excelDateToJSDate(ev['Mes']))})
         setAnswer(ans2)
     })
     }, [employes])

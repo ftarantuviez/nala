@@ -6,18 +6,10 @@ export const useStyles = makeStyles(theme => ({
         height: '100%'
     },
     paper: {
-        width: '100%',
         height: '400px',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
-    },
-    paperFirstChart: {
-        width: '100%',
-        height: '400px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     paperList: {
         position: 'absolute',
@@ -32,7 +24,6 @@ export const useStyles = makeStyles(theme => ({
     },
     paperDonut: {
         background: '#3f51b5',
-        width: '100%',
         height: '400px',
         display: 'flex',
         justifyContent: 'center',
@@ -50,5 +41,14 @@ export const useStyles = makeStyles(theme => ({
         textAlign: 'center',
         marginBottom: '35px',
         color: "white"
+    },
+    chartContainer: {
+        width: '100%',
+        height: '100%',
+        alignItems: 'center',
+        display: 'flex'
+    },
+    paperChart: {
+        padding: '20px'
     }
 }))
